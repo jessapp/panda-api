@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_restful import Resource, Api, reqparse
 from sqlalchemy import create_engine
+# from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.restful import (reqparse, abort, fields, marshal_with,
                                marshal)
 from json import dumps
@@ -9,6 +10,7 @@ engine = create_engine('sqlite:///panda.db')
 
 app = Flask(__name__)
 api = Api(app)
+# db = SQLAlchemy(app)
 
 
 new_pandas = []
@@ -55,15 +57,35 @@ class Pandas(Resource):
 class AddPanda(Resource):
     """Add new panda"""
 
-    # Error!
-
     def post(self):
+        try:
+            # Parse the arguments
+            parser = reqparse.RequestParser()
+            parser.add_argument('panda_name', type=str, help='Panda name')
+            parser.add_argument('pandaid', type=str, help='Panda ID')
+            parser.add_argument('panda_zoo', type=str, help='Panda zoo')
+            parser.add_argument('panda_city', type=str, help='Panda city')
+            parser.add_argument('panda_state', type=str, help='Panda state')
+            parser.add_argument('panda_country', type=str, help='country')
+            args = parser.parse_args()
 
-        json_data = request.get_json(force=True)
-        panda_id = json_data['PANDA_ID']
-        name = json_data['name']
+            panda_name = args['panda_name']
+            panda_num = args['pandaid']
+            panda_zoo = args['panda_zoo']
+            panda_city = args['panda_city']
+            panda_state = args['panda_state']
+            panda_country = args['panda_country']
 
-        return jsonify(panda_id=panda_id, name=name)
+            # Add args to the DB
+
+            conn = engine.connect()
+
+            add_to_db = conn.execute("INSERT INTO panda (PANDA_ID, NAME, ZOO, CITY, STATE, COUNTRY) VALUES ('%s', '%s', '%s', '%s', '%s', '%s')" % (panda_num, panda_name, panda_zoo, panda_city, panda_state, panda_country))
+
+            return jsonify({"New Panda": {'Name': args['panda_name'], 'PandaID': args['pandaid']}})
+
+        except Exception as e:
+            return {'error': str(e)}
 
 
 
@@ -114,6 +136,7 @@ class PandaID(Resource):
         results = {}
 
         for line in query:
+            print type(line)
             panda_results = {}
 
             panda_id = line[0]
