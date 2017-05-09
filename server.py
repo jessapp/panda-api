@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_restful import Resource, Api, reqparse
 from sqlalchemy import create_engine
-# from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.restful import (reqparse, abort, fields, marshal_with,
                                marshal)
 from json import dumps
@@ -10,14 +9,7 @@ engine = create_engine('sqlite:///panda.db')
 
 app = Flask(__name__)
 api = Api(app)
-# db = SQLAlchemy(app)
 
-
-new_pandas = []
-
-fields = {
-    'panda': fields.String
-}
 
 class Pandas(Resource):
     """Return all pandas"""
