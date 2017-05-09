@@ -44,25 +44,28 @@ class Pandas(Resource):
 
         return jsonify(results)
 
-    def post(self):
+    # def post(self):
 
-        parser = reqparse.RequestParser()
+    #     parser = reqparse.RequestParser()
 
-        parser.add_argument('PANDA_ID', type=int)
-        parser.add_argument('NAME', type=str)
-        parser.add_argument('ZOO', type=str)
-        parser.add_argument('CITY', type=str)
-        parser.add_argument('STATE', type=str)
-        parser.add_argument('COUNTRY', type=str)
+    #     parser.add_argument('PANDA_ID', type=int)
+    #     parser.add_argument('NAME', type=str)
+    #     parser.add_argument('ZOO', type=str)
+    #     parser.add_argument('CITY', type=str)
+    #     parser.add_argument('STATE', type=str)
+    #     parser.add_argument('COUNTRY', type=str)
 
-        args = parser.parse_args()
+    #     args = parser.parse_args()
 
-        panda = {'PANDA_ID': args['PANDA_ID'], 'NAME': args['NAME'], 'ZOO': args['ZOO'],
-        'CITY': args['CITY'], 'STATE': args['STATE'], 'COUNTRY': args['COUNTRY']}
+    #     panda = {'PANDA_ID': args['PANDA_ID'], 'NAME': args['NAME'], 'ZOO': args['ZOO'],
+    #     'CITY': args['CITY'], 'STATE': args['STATE'], 'COUNTRY': args['COUNTRY']}
 
-        # add panda to DB here?
+    #     # add panda to DB here?
 
-        return 201
+    #     db.session.add(panda)
+    #     db.session.commit()
+
+    #     return jsonify({'Panda'}: panda), 201
 
 
 
