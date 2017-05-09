@@ -1,6 +1,6 @@
 # Panda API
 
-The Panda API is an custom API made using using the Flask-RESTFUL FLask extension. It references a database of all pandas currently on loan from China, and allows users to find them by country and ID.
+The Panda API is an custom API made using using the Flask-RESTFUL Flask extension. It references a database of all pandas currently on loan from China, and allows users to find them by country and ID.
 
 ![Pandas in the USA](/USA_Pandas.png "Pandas in the USA")
 

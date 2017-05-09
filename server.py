@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify
 from flask_restful import Resource, Api, reqparse
 from sqlalchemy import create_engine
+from flask.ext.restful import (reqparse, abort, fields, marshal_with,
+                               marshal)
 from json import dumps
 
 engine = create_engine('sqlite:///panda.db')
@@ -9,8 +11,14 @@ app = Flask(__name__)
 api = Api(app)
 
 
+new_pandas = []
+
+fields = {
+    'panda': fields.String
+}
+
 class Pandas(Resource):
-    """Return all pandas, or add new panda"""
+    """Return all pandas"""
 
     def get(self):
 
@@ -44,28 +52,18 @@ class Pandas(Resource):
 
         return jsonify(results)
 
-    # def post(self):
+class AddPanda(Resource):
+    """Add new panda"""
 
-    #     parser = reqparse.RequestParser()
+    # Error!
 
-    #     parser.add_argument('PANDA_ID', type=int)
-    #     parser.add_argument('NAME', type=str)
-    #     parser.add_argument('ZOO', type=str)
-    #     parser.add_argument('CITY', type=str)
-    #     parser.add_argument('STATE', type=str)
-    #     parser.add_argument('COUNTRY', type=str)
+    def post(self):
 
-    #     args = parser.parse_args()
+        json_data = request.get_json(force=True)
+        panda_id = json_data['PANDA_ID']
+        name = json_data['name']
 
-    #     panda = {'PANDA_ID': args['PANDA_ID'], 'NAME': args['NAME'], 'ZOO': args['ZOO'],
-    #     'CITY': args['CITY'], 'STATE': args['STATE'], 'COUNTRY': args['COUNTRY']}
-
-    #     # add panda to DB here?
-
-    #     db.session.add(panda)
-    #     db.session.commit()
-
-    #     return jsonify({'Panda'}: panda), 201
+        return jsonify(panda_id=panda_id, name=name)
 
 
 
@@ -145,6 +143,7 @@ class PandaID(Resource):
 api.add_resource(Pandas, '/pandas')
 api.add_resource(Countries, '/location/<string:country>')
 api.add_resource(PandaID, '/id/<string:panda_id>')
+api.add_resource(AddPanda, '/addpanda')
 
 
 if __name__ == '__main__':
